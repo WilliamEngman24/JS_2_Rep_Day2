@@ -30,6 +30,7 @@ async function apiFetcher(){
         console.log(error.message);
     }
 
+    //adds each person from api data to ul list as its own li element
     for (let i = 0; i < api_data.length; i++){
         let person = document.createElement("li");
         person.innerHTML = api_data[i].name;
@@ -53,9 +54,10 @@ document.getElementById("api_output").addEventListener("click", async (event) =>
         return;
     }
 
-    //
+    //get the name of the targetet li element
     let targetPerson = element.innerHTML;
     
+    //fetch api data
     try{
         let response = await fetch("https://jsonplaceholder.typicode.com/users");
         if(!response.ok){throw new Error("Error type: " + response.status);}
@@ -68,16 +70,20 @@ document.getElementById("api_output").addEventListener("click", async (event) =>
         console.log(error.message);
     }
 
+    //find the the person in the api data that matches the name clicked in the list
     for (let i = 0; i < api_data.length; i++){
         if (api_data[i].name === targetPerson){
+
+            //give the li element its own ul to store new information
             let postInfo = document.createElement("ul");
             element.appendChild(postInfo);
 
-
+            //find every postal information about the person and add it to the newly created ul
             let street = document.createElement("li");
             street.innerHTML = "Street: " + api_data[i].address.street; 
             postInfo.appendChild(street);
 
+            //same process
             let suite = document.createElement("li");
             suite.innerHTML = "Suite: " + api_data[i].address.suite; 
             postInfo.appendChild(suite);
